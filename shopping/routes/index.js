@@ -3,6 +3,7 @@ var router = express.Router();
 var Cart = require('../models/cart');
 
 var Product = require('../models/product.js');
+var Order = require('../models/order.js');
 
 
 
@@ -67,18 +68,18 @@ router.post('/checkout'/*, isLoggedIn*/, function(req, res, next) {
             req.flash('error', err.message);
             return res.redirect('/checkout');
         }
-        // var order = new Order({
-        //     user: req.user,
-        //     cart: cart,
-        //     address: req.body.address,
-        //     name: req.body.name,
-        //     paymentId: charge.id
-        // });
-        //order.save(function(err, result) {
+        var order = new Order({
+            user: req.user,
+            cart: cart,
+            address: req.body.address,
+            name: req.body.name,
+            paymentId: charge.id
+        });
+        order.save(function(err, result) {
             req.flash('success', 'Successfully bought product!');
             req.session.cart = null;
             res.redirect('/');
-        //});
+        });
     });
 });
 
