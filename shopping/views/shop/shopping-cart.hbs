@@ -6,7 +6,7 @@
                     <li class="list-group-item">
                         <span class="badge">{{this.qty}}</span>
                         <span style="font-weight: bold">{{this.item.title}}</span>
-                        <span class="label label-success">${{this.price}}</span>
+                        <span class="label label-success">{{this.price}} €</span>
                         <div class="btn-group">
                             <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"
                                     aria-haspopup="true" aria-expanded="false">
@@ -30,7 +30,7 @@
     <hr>
     <div class="row">
         <div class="col-sm-6 col-md-4 col-md-offset-4 col-sm-offset-3">
-            <button type="button" class="btn btn-success">Checkout</button>
+            <a href="/checkout" type="button" class="btn btn-success">Checkout</a>
         </div>
     </div>
 {{ else }}

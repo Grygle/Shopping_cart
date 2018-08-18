@@ -8,8 +8,9 @@ var Product = require('../models/product.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    var successMsg = req.flash('success')[0];
     Product.find(function (err, docs) {
-        res.render('shop/index', { title: 'Shop here!', products: docs });
+        res.render('shop/index', { title: 'Shop here!', products: docs, successMsg: successMsg, noMessages: !successMsg});
     });
 });
 
@@ -35,6 +36,51 @@ router.get('/shopping-cart', function (req, res, next) {
     }
     var cart = new Cart(req.session.cart);
     res.render('shop/shopping-cart', {products: cart.generateArray(), totalPrice: cart.totalPrice})
-})
+});
+
+router.get('/checkout', function (req, res, next) {
+    if (!req.session.cart){
+        return res.redirect('/shopping-cart');
+    }
+    var cart = new Cart(req.session.cart);
+    var errMsg = req.flash('error')[0];
+    res.render('shop/checkout', {total: cart.totalPrice, errMsg: errMsg, noError: !errMsg});
+});
+
+router.post('/checkout'/*, isLoggedIn*/, function(req, res, next) {
+    if (!req.session.cart) {
+        return res.redirect('/shopping-cart');
+    }
+    var cart = new Cart(req.session.cart);
+
+    var stripe = require("stripe")(
+        "sk_test_mfamxpi5aHGlsnhAshGVdCqw"
+    );
+
+    stripe.charges.create({
+        amount: cart.totalPrice * 100,
+        currency: "eur",
+        source: req.body.stripeToken, // obtained with Stripe.js
+        description: "Test Charge"
+    }, function(err, charge) {
+        if (err) {
+            req.flash('error', err.message);
+            return res.redirect('/checkout');
+        }
+        // var order = new Order({
+        //     user: req.user,
+        //     cart: cart,
+        //     address: req.body.address,
+        //     name: req.body.name,
+        //     paymentId: charge.id
+        // });
+        //order.save(function(err, result) {
+            req.flash('success', 'Successfully bought product!');
+            req.session.cart = null;
+            res.redirect('/');
+        //});
+    });
+});
+
 
 module.exports = router;
