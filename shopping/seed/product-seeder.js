@@ -7,7 +7,11 @@ mongoose.connect("mongodb://localhost:27017/shopping", { useNewUrlParser: true }
     =======================
         DELETE DATABASE
     =======================
+while in seed folder:
+node product-seeder.js
  */
+
+
 //     mongoose.connect('mongodb://localhost:27017/shopping', { useNewUrlParser: true }, function(){
 //     mongoose.connection.db.dropDatabase();
 // });
@@ -22,7 +26,7 @@ var products = [
     new Product({
         imagePath: 'https://images.pexels.com/photos/450060/pexels-photo-450060.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260',
         title: 'Chinese umbrella',
-        description: 'Umbrella with orient style.',
+        description: 'Umbrella in style of orient.',
         price: 8
     }),
     new Product({

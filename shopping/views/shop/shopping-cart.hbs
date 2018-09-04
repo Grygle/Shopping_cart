@@ -8,14 +8,9 @@
                         <span style="font-weight: bold">{{this.item.title}}</span>
                         <span class="label label-success">{{this.price}} €</span>
                         <div class="btn-group">
-                            <button type="button" class="btn btn-primary btn-xs dropdown-toggle" data-toggle="dropdown"
-                                    aria-haspopup="true" aria-expanded="false">
-                                Action <span class="caret"></span>
+                            <button type="button" class="btn btn-success btn-xs">
+                                <a href="/remove/{{this.item._id}}">Remove from cart</a>
                             </button>
-                            <ul class="dropdown-menu">
-                                <li><a href="/reduce/{{this.item._id}}">Reduce by 1</a></li>
-                                <li><a href="/remove/{{this.item._id}}">Remove All</a></li>
-                            </ul>
                         </div>
                     </li>
                 {{/each}}
